@@ -35,6 +35,11 @@ namespace ImageEdit
         ExecutableReturnValues Execute(Graphics g);
     }
 
+    public interface IBMPExecutable
+    {
+        ExecutableReturnValues Execute(Bitmap bmp, string filename);
+    }
+
     public class ExecutableReturnValues
     {
         public readonly bool Exit, Save;
@@ -80,15 +85,20 @@ namespace ImageEdit
     {
         public const string SAVE_COMMAND_ARG = "save";
         public const string SAVE_DESCRIPTION = "This command will save the current image in memory.";
+        public const string BMP_FLAG = "bmp";
+
+        //
+        private bool bmp;
 
         public SaveCommand() : base(SAVE_COMMAND_ARG, SAVE_DESCRIPTION, SAVE_COMMAND_ARG) { }
 
         public override void ParseArgs(string[] args)
         {
-            if (args.Length > 1)
+            if (args.Length > 2)
             {
                 throw new TooManyCommandArgsException(args[0], 1, args.Length);
             }
+            bmp = ArgUtils.HasFlag(args, BMP_FLAG); 
         }
 
         public virtual ExecutableReturnValues Execute()

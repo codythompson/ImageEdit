@@ -61,5 +61,17 @@ namespace ImageEdit
 
             return new Point(x, y);
         }
+
+        public static Boolean HasFlag(string[] args, string flag)
+        {
+            foreach(String arg in args)
+            {
+                if (arg == flag)
+                {
+                    return true;
+                }
+            }
+            return false;
+        }
     }
 }

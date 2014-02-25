@@ -126,6 +126,11 @@ namespace ImageEdit
                             returnVals = ((IGraphicsExecutable)command).Execute(g);
                         }
 
+                        if (command is IBMPExecutable)
+                        {
+                            returnVals = ((IBMPExecutable)command).Execute(bmp, OutputFileName);
+                        }
+
                         if (returnVals != null)
                         {
                             if (returnVals.Save)
@@ -206,7 +211,7 @@ namespace ImageEdit
 
         public static Command[] GetCommands()
         {
-            Command[] commands = new Command[3];
+            Command[] commands = new Command[6];
 
             //---------------------------------
             // Hard Coded command instantiating
@@ -215,8 +220,13 @@ namespace ImageEdit
             //---------------------------------
             commands[0] = new ExitCommand();
             commands[1] = new SaveCommand();
+            
+            commands[2] = new SaveBMP();
 
-            commands[2] = new FadeLine1();
+            commands[3] = new DrawCircleCommand();
+
+            commands[4] = new FadeLine1();
+            commands[5] = new BoxMe();
 
             return commands;
         }

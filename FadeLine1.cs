@@ -8,9 +8,11 @@ namespace ImageEdit
         public const string FADELINE1_COMMAND_ARG = "fadeline1";
         public const string FADELINE1_DESCRIPTION = "A command that draws a line that fades from one color to another.";
         public const string FADELINE1_USAGE = "fadeline1 <start x>,<start y> <end x>,<end y> <int width> <start color>,<end color>";
+        public const string ANGLED_FLAG = "-a";
 
         private Point StartPos, EndPos, StartEndColors;
         private int width;
+        private bool angled;
 
         public FadeLine1() : base(FADELINE1_COMMAND_ARG, FADELINE1_DESCRIPTION, FADELINE1_USAGE) { }
 
@@ -24,6 +26,7 @@ namespace ImageEdit
             EndPos = ArgUtils.ParsePoint(CommandArg, args, 2);
             width = ArgUtils.ParseInt(CommandArg, args, 3);
             StartEndColors = ArgUtils.ParsePoint(CommandArg, args, 4);
+            angled = ArgUtils.HasFlag(args, ANGLED_FLAG);
         }
 
         public virtual ExecutableReturnValues Execute(Graphics g)
@@ -37,6 +40,11 @@ namespace ImageEdit
                 g.DrawLine(p, StartPos, EndPos);
                 StartPos.Y += 1;
                 EndPos.Y += 1;
+                if (angled)
+                {
+                    StartPos.X++;
+                    EndPos.X--;
+                }
             }
 
             return new ExecutableReturnValues();
